@@ -1,0 +1,44 @@
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+class ScreeningResult(models.Model):
+    class Recommendation(models.TextChoices):
+        PROCEED = 'proceed', 'Proceed'
+        HOLD = 'hold', 'Hold'
+        REJECT = 'reject', 'Reject'
+
+    candidate = models.ForeignKey(
+        'Candidate',
+        on_delete=models.PROTECT,
+        related_name='screening_results',
+    )
+    job_position = models.ForeignKey(
+        'JobPosition',
+        on_delete=models.PROTECT,
+        related_name='screening_results',
+    )
+    score = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(100),
+        ],
+    )
+    strengths = models.JSONField(default=list, blank=True)
+    missing_skills = models.JSONField(default=list, blank=True)
+    recommendation = models.CharField(
+        max_length=10,
+        choices=Recommendation.choices,
+    )
+    summary = models.TextField()
+    raw_report = models.JSONField(default=dict, blank=True)
+    generated_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-generated_at']
+
+    def __str__(self):
+        return (
+            f'{self.candidate.full_name} - '
+            f'{self.job_position.title}: {self.score}'
+        )
