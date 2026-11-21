@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from .Screening_Result import ScreeningResult
+from .screening_result import ScreeningResult
 
 class InterviewQuestionSet(models.Model):
     candidate = models.ForeignKey(
