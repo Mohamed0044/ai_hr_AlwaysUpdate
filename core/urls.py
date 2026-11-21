@@ -1,44 +1,44 @@
 from django.urls import path
+
 from .views import (
-    CreateDepartmentView,
-    CreateJobPositionView,
-    CreateCandidateView,
+    create_department,
+    create_job_position,
+    create_candidate,
+    upload_resume,
+    screening_result_detail,
+    interview_question_set_detail,
 )
-from .views import (
-    UploadResumeView,
-    ScreeningResultDetailView,
-    InterviewQuestionSetDetailView,
-)
+
 
 urlpatterns = [
     path(
         'departments/',
-        CreateDepartmentView.as_view(),
+        create_department,
         name='create_department',
     ),
     path(
         'job-positions/',
-        CreateJobPositionView.as_view(),
+        create_job_position,
         name='create_job_position',
     ),
     path(
         'candidates/',
-        CreateCandidateView.as_view(),
+        create_candidate,
         name='create_candidate',
     ),
-        path(
+    path(
         'resumes/',
-        UploadResumeView.as_view(),
+        upload_resume,
         name='upload_resume',
     ),
     path(
         'screening-results/<int:pk>/',
-        ScreeningResultDetailView.as_view(),
+        screening_result_detail,
         name='screening_result_detail',
     ),
     path(
         'interview-question-sets/<int:pk>/',
-        InterviewQuestionSetDetailView.as_view(),
+        interview_question_set_detail,
         name='interview_question_set_detail',
     ),
 ]
